@@ -16,6 +16,17 @@ class TestBaseModel(unittest.TestCase):
         date = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
         self.assertEqual(my_model.created_at.strftime("%Y-%m-%dT%H:%M:%S"), date)
 
+    def test_updated_at(self):
+        try:
+            my_model = BaseModel()
+            updated_at = my_model.updated_at
+            my_model.save()
+
+            self.assertNotEqual(updated_at, my_model.updated_at), \
+                    "updated_at not changeing after new modification"
+        except AssertionError as e:
+            print(e)
+
     def test_instance_attributes(self):
         try:
             my_model = BaseModel()
