@@ -20,6 +20,7 @@ class TestBaseModel(unittest.TestCase):
         my_model = BaseModel()
         my_model.name = "Larvine"
         my_model.account_bal = 9999999999999
+
         _dict = {'name': "Larvine", 'account_bal': 9999999999999}
         
         for item in _dict.items():
