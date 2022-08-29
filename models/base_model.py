@@ -10,6 +10,9 @@ class BaseModel:
     '''Base Model class
     '''
     def __init__(self, *args, **kwargs):
+        '''Initializes attributes of BaseModel instance
+        '''
+        
         if kwargs:
             for name, attr in kwargs.items():
                 if name != '__class__':
@@ -23,12 +26,22 @@ class BaseModel:
             self.updated_at = datetime.now()
 
     def __str__(self):
+        '''returns information about BaseModel instance.
+        '''
+
         return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
 
     def save(self):
+        '''updates the public instance attribute updated_at 
+        with the current datetime
+        '''
+
         self.updated_at = datetime.now()
 
     def to_dict(self):
+        ''' returns a dictionary containing all keys/values of __dict__ of the instance
+        '''
+
         to_dict = {}
         for key, value in self.__dict__.items():
             to_dict[key] = value
