@@ -5,7 +5,8 @@ import cmd
 import json
 
 import models
-from models import BaseModel, User
+from models import BaseModel, User, State, \
+    City, Amenity, Place, Review
 
 
 class HBNBCommand(cmd.Cmd):
@@ -13,7 +14,9 @@ class HBNBCommand(cmd.Cmd):
     '''
 
     prompt = '(hbnb) '
-    model_list = ['BaseModel', 'User']
+    model_list = ['BaseModel', 'User', 'State', 
+        'City', 'Amenity', "Place", "Review"
+    ]
     
 
     @classmethod
@@ -260,7 +263,7 @@ class HBNBCommand(cmd.Cmd):
 
         print(doc)
 
-        
+
 if __name__ == '__main__':
     interpreter = HBNBCommand()
     interpreter.cmdloop()
