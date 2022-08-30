@@ -31,14 +31,14 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return True
 
-        #commands = ['create', 'show', 'destroy', \
-        #    'all', 'update']
+        commands = ['create', 'show', 'destroy', \
+            'all', 'update']
 
         if 'command' not in  kwargs:
             return False
 
         for arg in kwargs.values():
-            if arg == 'show':
+            if arg in commands:
                 if len(args) < 2:
                     print("** instance id missing **")
                     return True
@@ -74,7 +74,8 @@ class HBNBCommand(cmd.Cmd):
         print(doc)
 
     def do_create(self, args):
-        '''Creates a new instance of a class, saves it to JSON
+        '''
+        Creates a new instance of a class, saves it to JSON
         file, prints the instance id
 
         Args:
@@ -109,8 +110,9 @@ class HBNBCommand(cmd.Cmd):
         print(doc)
 
     def do_show(self, args):
-        ''' Prints the string representation of an instance
-            based on the class name and id
+        ''' 
+        Prints the string representation of an instance
+        based on the class name and id
         '''
 
         if HBNBCommand.handle_errors(args, command = 'show'):
@@ -130,7 +132,6 @@ class HBNBCommand(cmd.Cmd):
 
         print("** no instance found **")
 
-
     def help_show(self):
         doc = '''
         Prints the string representation of an instance
@@ -140,14 +141,45 @@ class HBNBCommand(cmd.Cmd):
             model: Class model of instance to show
             id: id of instance
         '''
-        
+
         print(doc)
 
     def do_destroy(self, *args):
-        pass
+        '''
+        Deletes an instance based on the class name and id
+        Args:
+            class_model: class model of instance to destroy
+            id: id of instance to destroy
 
+        '''
+
+        if HBNBCommand.handle_errors(args, command = 'destroy'):
+            return
+
+        args = args.split(" ")
+        with open("file.json", 'r') as f_obj:
+            data = json.load(f_obj)
+
+        for k, v in data.items():
+            key = k.split(".")
+            if key[0] == args[0] and key[1] == args[1]:
+                del data[k]
+                with open('file.json', 'w') as f_obj:
+                    json.dump(data, f_obj)
+                return
+
+        print("** no instance found **")
+        
     def help_destroy(self):
-        pass
+        doc = '''
+        Deletes an instance based on the class name and id
+        Args:
+            class_model: class model of instance to destroy
+            id: id of instance to destroy
+
+        '''
+
+        print(doc)
 
     def do_all(self, *args):
         pass
