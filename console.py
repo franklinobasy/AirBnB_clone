@@ -23,7 +23,8 @@ class HBNBCommand(cmd.Cmd):
         else:
             args = tuple(args.split(" "))
 
-        if len(args) < 1:
+        n  = len(args)
+        if n < 1:
             print("** class name missing **")
             return True
 
@@ -31,18 +32,25 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return True
 
-        commands = ['create', 'show', 'destroy', \
-            'all', 'update']
-
         if 'command' not in  kwargs:
             return False
 
         for arg in kwargs.values():
-            if arg in commands:
-                if len(args) < 2:
+            if arg in ['create', 'show', 'destroy', 'all']:
+                if n < 2:
                     print("** instance id missing **")
                     return True
-
+            elif arg in ['update']:
+                if n < 2:
+                    print("** instance id missing **")
+                    return True
+                elif n < 3:
+                    print("** attribute name missing **")
+                    return True
+                elif n < 4:
+                    print("** value missing **")
+                    return True
+                
         return False
 
     def do_quit(self, args):
@@ -212,8 +220,15 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_update(self, args):
-        pass
+        '''
+        Updates an instance based on the class name and id 
+        by adding or updating attribute (save the change into the JSON file).
+        '''
 
+        if HBNBCommand.handle_errors(args, command= 'update'):
+            return
+        pass
+    
     def help_update(self):
         pass
 
