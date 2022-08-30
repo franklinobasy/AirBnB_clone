@@ -3,6 +3,7 @@
 
 from models import BaseModel
 
+
 class Place(BaseModel):
     '''Class Place
     '''
