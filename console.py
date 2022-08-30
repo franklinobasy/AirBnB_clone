@@ -16,7 +16,12 @@ class HBNBCommand(cmd.Cmd):
     
 
     @classmethod
-    def handle_errors(cls, *args, **kwargs):
+    def handle_errors(cls, args, **kwargs):
+        if not args:
+            args = ()
+        else:
+            args = tuple(args.split(" "))
+
         if len(args) < 1:
             print("** class name missing **")
             return True
@@ -31,7 +36,7 @@ class HBNBCommand(cmd.Cmd):
         if 'command' not in  kwargs:
             return False
 
-        for arg in kwargs['command']:
+        for arg in kwargs.values():
             if arg == 'show':
                 if len(args) < 2:
                     print("** instance id missing **")
@@ -67,7 +72,7 @@ class HBNBCommand(cmd.Cmd):
 
         print(doc)
 
-    def do_create(self, *args):
+    def do_create(self, args):
         '''Creates a new instance of a class, saves it to JSON
         file, prints the instance id
 
@@ -80,9 +85,10 @@ class HBNBCommand(cmd.Cmd):
             93605ea4-0fc7-4593-a2d5-002348057cd1
         '''
         
-        if HBNBCommand.handle_errors(*args):
+        if HBNBCommand.handle_errors(args):
             return
 
+        args =args.split(" ")
         obj = eval(args[0])()
         obj.save()
         print(obj.id)
@@ -101,8 +107,17 @@ class HBNBCommand(cmd.Cmd):
         '''
         print(doc)
 
-    def do_show(self, *args):
+    def do_show(self, args):
+        ''' Prints the string representation of an instance
+            based on the class name and id
+        '''
+
+       
+        if HBNBCommand.handle_errors(args, command = 'show'):
+            return
+
         pass
+
 
     def help_show(self):
         pass
