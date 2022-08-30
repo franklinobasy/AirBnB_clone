@@ -2,6 +2,7 @@
 '''Entry point of the command interpreter
 '''
 import cmd
+import json
 
 import models
 from models import BaseModel
@@ -112,15 +113,35 @@ class HBNBCommand(cmd.Cmd):
             based on the class name and id
         '''
 
-       
         if HBNBCommand.handle_errors(args, command = 'show'):
             return
 
-        pass
+        args = args.split(" ")
+        with open("file.json", 'r') as f_obj:
+            data = json.load(f_obj)
+
+        for k, v in data.items():
+            key = k.split(".")
+            
+            if key[0] == args[0] and key[1] == args[1]:
+                obj = eval(args[0])(**v)
+                print(obj)
+                return
+
+        print("** no instance found **")
 
 
     def help_show(self):
-        pass
+        doc = '''
+        Prints the string representation of an instance
+        based on the class name and id
+
+        Args:
+            model: Class model of instance to show
+            id: id of instance
+        '''
+        
+        print(doc)
 
     def do_destroy(self, *args):
         pass
