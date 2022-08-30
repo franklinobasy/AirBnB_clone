@@ -250,7 +250,12 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("** no instance found **")
     def help_update(self):
-        pass
+        '''
+        Updates an instance based on the class name and id 
+        by adding or updating attribute (save the change into the JSON file).
+
+        Usage: update <class name> <id> <attribute name> "<attribute value>"
+        '''
 
 if __name__ == '__main__':
     interpreter = HBNBCommand()
