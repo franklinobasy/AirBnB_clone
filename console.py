@@ -119,16 +119,19 @@ class HBNBCommand(cmd.Cmd):
             return
 
         args = args.split(" ")
-        with open("file.json", 'r') as f_obj:
-            data = json.load(f_obj)
+        try:
+            with open("file.json", 'r') as f_obj:
+                data = json.load(f_obj)
 
-        for k, v in data.items():
-            key = k.split(".")
-            
-            if key[0] == args[0] and key[1] == args[1]:
-                obj = eval(args[0])(**v)
-                print(obj)
-                return
+            for k, v in data.items():
+                key = k.split(".")
+                
+                if key[0] == args[0] and key[1] == args[1]:
+                    obj = eval(args[0])(**v)
+                    print(obj)
+                    return
+        except FileNotFoundError:
+            pass
 
         print("** no instance found **")
 
@@ -182,7 +185,28 @@ class HBNBCommand(cmd.Cmd):
         print(doc)
 
     def do_all(self, args):
-        pass
+        '''
+        Prints all string representation of all instances based 
+        or not on the class name.
+
+        Args:
+            class_model: class name to print
+        '''
+
+        if HBNBCommand.handle_errors(args):
+            return
+
+        args = args.split(" ")
+        with open("file.json", 'r') as f_obj:
+            data = json.load(f_obj)
+
+        _all = []
+        for k, v in data.items():
+            key = k.split(".")
+            if key[0] == args[0]:
+                _all.append(str(eval(key[0])(**v)))
+
+        print(_all)
 
     def help_all(self):
         pass

@@ -2,6 +2,8 @@
 '''
 import json
 
+from models.base_model import BaseModel
+
 class FileStorage:
     '''FileStorage class:
     that serializes instances to a JSON file and 
@@ -34,6 +36,7 @@ class FileStorage:
 
         to_save = {}
         for key, obj in self.__objects.items():
+            key = f"{obj.__class__.__name__}.{obj.id}"
             to_save.setdefault(key, obj.to_dict())
 
         with open(self.__file_path, 'w') as f_obj:
@@ -46,7 +49,12 @@ class FileStorage:
 
         try:
             with open(self.__file_path, 'r') as f_obj:
-                self.__objects = json.load(f_obj)
+                data = json.load(f_obj)
+
+            for obj_dict in data.values():
+                key = f"{obj_dict['__class__']}.{obj_dict['id']}"
+                self.__objects.setdefault(key, BaseModel(**obj_dict))
+            
         except FileNotFoundError as e:
             pass
     
