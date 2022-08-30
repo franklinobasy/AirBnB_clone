@@ -2,8 +2,10 @@
 
 '''Base Class for all models
 '''
-from uuid import uuid4
+import models
+
 from datetime import datetime
+from uuid import uuid4
 
 
 class BaseModel:
@@ -12,7 +14,7 @@ class BaseModel:
     def __init__(self, *args, **kwargs):
         '''Initializes attributes of BaseModel instance
         '''
-        
+
         if kwargs:
             for name, attr in kwargs.items():
                 if name != '__class__':
@@ -24,6 +26,7 @@ class BaseModel:
             self.id = str(uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+            models.storage.new(self)
 
     def __str__(self):
         '''returns information about BaseModel instance.
@@ -35,7 +38,7 @@ class BaseModel:
         '''updates the public instance attribute updated_at 
         with the current datetime
         '''
-
+        models.storage.save()
         self.updated_at = datetime.now()
 
     def to_dict(self):
