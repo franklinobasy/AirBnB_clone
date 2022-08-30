@@ -227,8 +227,28 @@ class HBNBCommand(cmd.Cmd):
 
         if HBNBCommand.handle_errors(args, command= 'update'):
             return
-        pass
-    
+        
+        args = args.split(" ")
+        attr_name = args[2]
+        attr_value = str(args[3])
+
+        with open('file.json', 'r') as f_obj:
+            data = json.load(f_obj)
+
+        found = False
+        for k, v in data.items():
+            key = k.split(".")
+            if key[0] == args[0] and key[1] == args[1]:
+                found = True
+                break
+        if found:
+            v[attr_name] = attr_value
+            data[k] = v
+
+            with open('file.json', 'w') as f_obj:
+                json.dump(data, f_obj)
+        else:
+            print("** no instance found **")
     def help_update(self):
         pass
 
