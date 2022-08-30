@@ -13,17 +13,32 @@ class HBNBCommand(cmd.Cmd):
 
     prompt = '(hbnb) '
     model_list = ['BaseModel']
+    
 
     @classmethod
-    def handle_errors(cls, args):
+    def handle_errors(cls, *args, **kwargs):
         if len(args) < 1:
             print("** class name missing **")
             return True
 
-        elif args[0] not in HBNBCommand.model_list:
+        if args[0] not in HBNBCommand.model_list:
             print("** class doesn't exist **")
             return True
-    
+
+        #commands = ['create', 'show', 'destroy', \
+        #    'all', 'update']
+
+        if 'command' not in  kwargs:
+            return False
+
+        for arg in kwargs['command']:
+            if arg == 'show':
+                if len(args) < 2:
+                    print("** instance id missing **")
+                    return True
+
+        return False
+
     def do_quit(self, args):
         ''' command to quit the interpreter'''
 
@@ -64,7 +79,8 @@ class HBNBCommand(cmd.Cmd):
 
             93605ea4-0fc7-4593-a2d5-002348057cd1
         '''
-        if HBNBCommand.handle_errors(args):
+        
+        if HBNBCommand.handle_errors(*args):
             return
 
         obj = eval(args[0])()
