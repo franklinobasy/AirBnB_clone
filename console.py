@@ -144,7 +144,7 @@ class HBNBCommand(cmd.Cmd):
 
         print(doc)
 
-    def do_destroy(self, *args):
+    def do_destroy(self, args):
         '''
         Deletes an instance based on the class name and id
         Args:
@@ -181,13 +181,13 @@ class HBNBCommand(cmd.Cmd):
 
         print(doc)
 
-    def do_all(self, *args):
+    def do_all(self, args):
         pass
 
     def help_all(self):
         pass
 
-    def do_update(self, *args):
+    def do_update(self, args):
         pass
 
     def help_update(self):
