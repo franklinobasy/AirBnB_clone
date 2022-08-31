@@ -3,6 +3,7 @@
 '''
 import cmd
 import json
+import re
 
 import models
 from models import BaseModel, User, State, \
@@ -262,6 +263,23 @@ class HBNBCommand(cmd.Cmd):
 
         print(doc)
 
+    def onecmd(self, arg):
+        pattern = re.compile(r"(\w+)\.(all\(\))")
+        # matches = pattern.finditer(arg)
+        match = re.search(pattern, arg)
+        if match:
+            match1, match2 = match.group(1), match.group(2)
+            if match1 in HBNBCommand.model_list:
+                arg = f"all {match1}"
+                cmd.Cmd.onecmd(self, arg)
+            else:
+                print("** class doesn't exist **")  
+        elif arg == "quit":
+            self.do_quit(arg)
+        elif arg == "EOF":
+            self.do_EOF(arg)
+        else:
+            cmd.Cmd.onecmd(self, arg)
 
 if __name__ == '__main__':
     interpreter = HBNBCommand()
