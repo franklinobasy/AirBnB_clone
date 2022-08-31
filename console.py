@@ -275,9 +275,9 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** class doesn't exist **")  
         elif arg == "quit":
-            self.do_quit(arg)
+            return self.do_quit(arg)
         elif arg == "EOF":
-            self.do_EOF(arg)
+            return self.do_EOF(arg)
         else:
             cmd.Cmd.onecmd(self, arg)
 
