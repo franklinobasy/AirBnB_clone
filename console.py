@@ -18,9 +18,10 @@ class HBNBCommand(cmd.Cmd):
     model_list = ['BaseModel', 'User', 'State',
                   'City', 'Amenity', "Place", "Review"
                   ]
+    queries = ['all', 'count', 'show', 'destroy', 'update']
 
     @classmethod
-    def handle_errors(cls, args, **kwargs):
+    def handle_errors(cls, args:str, **kwargs):
         if not args:
             args = ()
         else:
@@ -56,7 +57,7 @@ class HBNBCommand(cmd.Cmd):
 
         return False
 
-    def do_quit(self, args):
+    def do_quit(self, args:str):
         ''' command to quit the interpreter'''
 
         return True
@@ -84,7 +85,7 @@ class HBNBCommand(cmd.Cmd):
 
         print(doc)
 
-    def do_create(self, args):
+    def do_create(self, args:str):
         '''
         Creates a new instance of a class, saves it to JSON
         file, prints the instance id
@@ -120,7 +121,7 @@ class HBNBCommand(cmd.Cmd):
         '''
         print(doc)
 
-    def do_show(self, args):
+    def do_show(self, args:str):
         '''
         Prints the string representation of an instance
         based on the class name and id
@@ -158,7 +159,7 @@ class HBNBCommand(cmd.Cmd):
 
         print(doc)
 
-    def do_destroy(self, args):
+    def do_destroy(self, args:str):
         '''
         Deletes an instance based on the class name and id
         Args:
@@ -195,7 +196,7 @@ class HBNBCommand(cmd.Cmd):
 
         print(doc)
 
-    def do_all(self, args):
+    def do_all(self, args:str):
         '''
         Prints all string representation of all instances based
         or not on the class name.
@@ -222,7 +223,7 @@ class HBNBCommand(cmd.Cmd):
     def help_all(self):
         pass
 
-    def do_update(self, args):
+    def do_update(self, args:str):
         '''
         Updates an instance based on the class name and id
         by adding or updating attribute (save the change into the JSON file).
@@ -263,23 +264,32 @@ class HBNBCommand(cmd.Cmd):
 
         print(doc)
 
-    def onecmd(self, arg):
-        pattern = re.compile(r"(\w+)\.(all\(\))")
-        # matches = pattern.finditer(arg)
-        match = re.search(pattern, arg)
+    def onecmd(self, args:str):
+        pattern = re.compile(r"(\w+)\.(\w+)\((([\d-]+),?\s?(\w+)?,?\s?(\w+)?)?\)")
+        match = re.search(pattern, args)
         if match:
-            match1, match2 = match.group(1), match.group(2)
-            if match1 in HBNBCommand.model_list:
-                arg = f"all {match1}"
-                cmd.Cmd.onecmd(self, arg)
-            else:
-                print("** class doesn't exist **")  
-        elif arg == "quit":
-            return self.do_quit(arg)
-        elif arg == "EOF":
-            return self.do_EOF(arg)
+            self.handle_match(match)
+        elif args == "quit":
+            return self.do_quit(args)
+        elif args == "EOF":
+            return self.do_EOF(args)
         else:
-            cmd.Cmd.onecmd(self, arg)
+            cmd.Cmd.onecmd(self, args)
+
+    def handle_match(self, match:re.Match):
+        groups = match.groups()
+        if groups[0] not in HBNBCommand.model_list:
+            print("** class doesn't exist **")
+            return
+        if groups[1] not in HBNBCommand.queries:
+            print(f"** unknown query: '{groups[1]}'")
+            return
+        if groups[1] == 'all':
+            args = f"all {groups[0]}"
+            cmd.Cmd.onecmd(self, args)
+            return
+        
+        
 
 if __name__ == '__main__':
     interpreter = HBNBCommand()
