@@ -196,6 +196,30 @@ class HBNBCommand(cmd.Cmd):
 
         print(doc)
 
+    def do_count(self, args:str):
+        '''
+        counts all string representation of all instances based
+        or not on the class name.
+
+        Args:
+            class_model: class name to print
+        '''
+
+        if HBNBCommand.handle_errors(args):
+            return
+        
+        args = args.split(" ")
+        with open("file.json", 'r') as f_obj:
+            data = json.load(f_obj)
+
+        _all = []
+        for k, v in data.items():
+            key = k.split(".")
+            if key[0] == args[0]:
+                _all.append(str(eval(key[0])(**v)))
+
+        print(len(_all))
+
     def do_all(self, args:str):
         '''
         Prints all string representation of all instances based
@@ -286,6 +310,10 @@ class HBNBCommand(cmd.Cmd):
             return
         if groups[1] == 'all':
             args = f"all {groups[0]}"
+            cmd.Cmd.onecmd(self, args)
+            return
+        elif groups[1] == 'count':
+            args = f"count {groups[0]}"
             cmd.Cmd.onecmd(self, args)
             return
         
