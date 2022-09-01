@@ -1,6 +1,7 @@
 import re
 
-pattern = re.compile(r"(\w+)\.(\w+)\((([\d-]+),?\s?(\w+)?,?\s?(\w+)?)?\)")
+pattern = re.compile(r"(\w+)\.(\w+)\(((\"[\w|-]+\"),?\s?(\"\w+\")?,?\s?(\"?\w+\"?)?)?\)")
+
 
 while True:
     line = input("(hbnb)$ ")

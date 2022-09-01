@@ -2,6 +2,7 @@
 '''Entry point of the command interpreter
 '''
 import cmd
+from curses.ascii import isdigit
 import json
 import re
 
@@ -52,6 +53,7 @@ class HBNBCommand(cmd.Cmd):
                     print("** attribute name missing **")
                     return True
                 elif n < 4:
+                    print(args)
                     print("** value missing **")
                     return True
 
@@ -259,6 +261,8 @@ class HBNBCommand(cmd.Cmd):
         args = args.split(" ")
         attr_name = args[2]
         attr_value = str(args[3])
+        if attr_value.isdigit():
+            attr_value = int(attr_value)
 
         with open('file.json', 'r') as f_obj:
             data = json.load(f_obj)
@@ -289,7 +293,8 @@ class HBNBCommand(cmd.Cmd):
         print(doc)
 
     def onecmd(self, args:str):
-        pattern = re.compile(r"(\w+)\.(\w+)\((([\d-]+),?\s?(\w+)?,?\s?(\w+)?)?\)")
+        pattern = re.compile\
+            (r"(\w+)\.(\w+)\(((\"[\w|-]+\"),?\s?(\"\w+\")?,?\s?(\"?\w+\"?)?)?\)")
         match = re.search(pattern, args)
         if match:
             self.handle_match(match)
@@ -309,15 +314,34 @@ class HBNBCommand(cmd.Cmd):
             print(f"** unknown query: '{groups[1]}'")
             return
         if groups[1] == 'all':
-            args = f"all {groups[0]}"
+            args = f"{groups[1]} {groups[0]}"
             cmd.Cmd.onecmd(self, args)
             return
         elif groups[1] == 'count':
-            args = f"count {groups[0]}"
+            args = f"{groups[1]} {groups[0]}"
             cmd.Cmd.onecmd(self, args)
             return
-        
-        
+        elif groups[1] == 'show':
+            id = groups[3][1:-1]
+            args = f"{groups[1]} {groups[0]} {id}"
+            cmd.Cmd.onecmd(self, args)
+            return
+        elif groups[1] == "destroy":
+            id = groups[3][1:-1]
+            args = f"{groups[1]} {groups[0]} {id}"
+            cmd.Cmd.onecmd(self, args)
+            return
+        elif groups[1] == 'update':
+            id = groups[3][1:-1]
+            attr_name = groups[4][1:-1]
+            if "\"" not in groups[5]:
+                attr_value = groups[5]
+            else:
+                attr_value = groups[5][1:-1]
+                
+            args = f"{groups[1]} {groups[0]} {id} {attr_name} {attr_value}"
+            cmd.Cmd.onecmd(self, args)
+            return
 
 if __name__ == '__main__':
     interpreter = HBNBCommand()
