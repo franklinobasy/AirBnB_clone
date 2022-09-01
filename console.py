@@ -22,7 +22,7 @@ class HBNBCommand(cmd.Cmd):
     queries = ['all', 'count', 'show', 'destroy', 'update']
 
     @classmethod
-    def handle_errors(cls, args:str, **kwargs):
+    def handle_errors(cls, args: str, **kwargs):
         if not args:
             args = ()
         else:
@@ -59,7 +59,7 @@ class HBNBCommand(cmd.Cmd):
 
         return False
 
-    def do_quit(self, args:str):
+    def do_quit(self, args: str):
         ''' command to quit the interpreter'''
 
         return True
@@ -87,7 +87,7 @@ class HBNBCommand(cmd.Cmd):
 
         print(doc)
 
-    def do_create(self, args:str):
+    def do_create(self, args: str):
         '''
         Creates a new instance of a class, saves it to JSON
         file, prints the instance id
@@ -123,7 +123,7 @@ class HBNBCommand(cmd.Cmd):
         '''
         print(doc)
 
-    def do_show(self, args:str):
+    def do_show(self, args: str):
         '''
         Prints the string representation of an instance
         based on the class name and id
@@ -161,7 +161,7 @@ class HBNBCommand(cmd.Cmd):
 
         print(doc)
 
-    def do_destroy(self, args:str):
+    def do_destroy(self, args: str):
         '''
         Deletes an instance based on the class name and id
         Args:
@@ -198,7 +198,7 @@ class HBNBCommand(cmd.Cmd):
 
         print(doc)
 
-    def do_count(self, args:str):
+    def do_count(self, args: str):
         '''
         counts all string representation of all instances based
         or not on the class name.
@@ -209,7 +209,7 @@ class HBNBCommand(cmd.Cmd):
 
         if HBNBCommand.handle_errors(args):
             return
-        
+
         args = args.split(" ")
         with open("file.json", 'r') as f_obj:
             data = json.load(f_obj)
@@ -222,7 +222,7 @@ class HBNBCommand(cmd.Cmd):
 
         print(len(_all))
 
-    def do_all(self, args:str):
+    def do_all(self, args: str):
         '''
         Prints all string representation of all instances based
         or not on the class name.
@@ -249,7 +249,7 @@ class HBNBCommand(cmd.Cmd):
     def help_all(self):
         pass
 
-    def do_update(self, args:str):
+    def do_update(self, args: str):
         '''
         Updates an instance based on the class name and id
         by adding or updating attribute (save the change into the JSON file).
@@ -292,9 +292,10 @@ class HBNBCommand(cmd.Cmd):
 
         print(doc)
 
-    def onecmd(self, args:str):
-        pattern = re.compile\
-            (r"(\w+)\.(\w+)\(((\"[\w|-]+\"),?\s?(\"\w+\")?,?\s?(\"?\w+\"?)?)?\)")
+    def onecmd(self, args: str):
+        pattern = re.compile(
+            r"(\w+)\.(\w+)\(((\"[\w|-]+\"),?\s?(\"\w+\")?,?\s?(\"?\w+\"?)?)?\)"
+        )
         match = re.search(pattern, args)
         if match:
             self.handle_match(match)
@@ -305,7 +306,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             cmd.Cmd.onecmd(self, args)
 
-    def handle_match(self, match:re.Match):
+    def handle_match(self, match: re.Match):
         groups = match.groups()
         if groups[0] not in HBNBCommand.model_list:
             print("** class doesn't exist **")
@@ -338,10 +339,11 @@ class HBNBCommand(cmd.Cmd):
                 attr_value = groups[5]
             else:
                 attr_value = groups[5][1:-1]
-                
+
             args = f"{groups[1]} {groups[0]} {id} {attr_name} {attr_value}"
             cmd.Cmd.onecmd(self, args)
             return
+
 
 if __name__ == '__main__':
     interpreter = HBNBCommand()
