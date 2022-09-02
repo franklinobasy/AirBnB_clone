@@ -47,7 +47,7 @@ class FileStorage:
             to_save.setdefault(key, obj.to_dict())
 
         with open(self.__file_path, 'w') as f_obj:
-            json.dump(to_save, f_obj)
+            json.dump(to_save, f_obj, indent=4)
 
     def reload(self):
         ''' deserializes the JSON file to __objects
@@ -65,3 +65,15 @@ class FileStorage:
 
         except FileNotFoundError as e:
             pass
+
+    def delete(self, obj):
+        name = obj.__class__.__name__
+        id = obj.id
+        key = ".".join([name, id])
+        if key in FileStorage.__objects:
+            del FileStorage.__objects[key]
+            self.save()
+            return True
+            
+        return False
+        

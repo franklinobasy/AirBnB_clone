@@ -1,6 +1,6 @@
 import re
 
-pattern = re.compile(r"(\w+)\.(\w+)\(((\"[\w|-]+\"),?\s?[(\"\w+\")|{'\w+':}]?,?\s?(\"?\w+\"?)?)?\)")
+pattern = re.compile(r"(\w+)\.(\w+)\(((\"[\w|-]+\"),?\s?(\"\w+\")?,?\s?(\"?\w+\"?)?)?\)")
 
 
 while True:

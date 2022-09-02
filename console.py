@@ -39,7 +39,7 @@ class HBNBCommand(cmd.Cmd):
         if 'command' not in kwargs:
             return False
 
-        for arg in kwargs.values():
+        for _, arg in kwargs.items():
             if arg in ['create', 'show', 'destroy', 'all']:
                 if n < 2:
                     print("** instance id missing **")
@@ -165,18 +165,14 @@ class HBNBCommand(cmd.Cmd):
             return
 
         args = args.split(" ")
-        with open("file.json", 'r') as f_obj:
-            data = json.load(f_obj)
+        objects = models.storage.all()
+        key = ".".join(args)
 
-        for k, v in data.items():
-            key = k.split(".")
-            if key[0] == args[0] and key[1] == args[1]:
-                del data[k]
-                with open('file.json', 'w') as f_obj:
-                    json.dump(data, f_obj)
-                return
-
-        print("** no instance found **")
+        delete = False
+        if key in objects and models.storage.delete(objects[key]):
+            pass
+        else:
+            print("** no instance found **")
 
     def help_destroy(self):
         doc = '''
@@ -202,14 +198,13 @@ class HBNBCommand(cmd.Cmd):
             return
 
         args = args.split(" ")
-        with open("file.json", 'r') as f_obj:
-            data = json.load(f_obj)
-
+        objects = models.storage.all()
         _all = []
-        for k, v in data.items():
+
+        for k, v in objects.items():
             key = k.split(".")
             if key[0] == args[0]:
-                _all.append(str(eval(key[0])(**v)))
+                _all.append(str(v))
 
         print(len(_all))
 
@@ -226,14 +221,13 @@ class HBNBCommand(cmd.Cmd):
             return
 
         args = args.split(" ")
-        with open("file.json", 'r') as f_obj:
-            data = json.load(f_obj)
-
+        objects = models.storage.all()
         _all = []
-        for k, v in data.items():
+
+        for k, v in objects.items():
             key = k.split(".")
             if key[0] == args[0]:
-                _all.append(str(eval(key[0])(**v)))
+                _all.append(str(v))
 
         print(_all)
 
@@ -252,24 +246,18 @@ class HBNBCommand(cmd.Cmd):
         args = args.split(" ")
         attr_name = args[2]
         attr_value = str(args[3])
+        if attr_value[0] == "\"" or attr_value[-1] == "\"":
+            attr_value = attr_value[1:-1]
         if attr_value.isdigit():
             attr_value = int(attr_value)
 
-        with open('file.json', 'r') as f_obj:
-            data = json.load(f_obj)
+        objects = models.storage.all()
+        key = ".".join(args[:2])
 
-        found = False
-        for k, v in data.items():
-            key = k.split(".")
-            if key[0] == args[0] and key[1] == args[1]:
-                found = True
-                break
-        if found:
-            v[attr_name] = attr_value
-            data[k] = v
-
-            with open('file.json', 'w') as f_obj:
-                json.dump(data, f_obj)
+        obj = objects.get(key)
+        if obj:
+            setattr(obj, attr_name, attr_value)
+            obj.save()
         else:
             print("** no instance found **")
 
@@ -314,26 +302,40 @@ class HBNBCommand(cmd.Cmd):
             cmd.Cmd.onecmd(self, args)
             return
         elif groups[1] == 'show':
-            id = groups[3][1:-1]
+            if groups[3]:
+                id = groups[3][1:-1]
+            else:
+                id =""
             args = f"{groups[1]} {groups[0]} {id}"
             cmd.Cmd.onecmd(self, args)
             return
         elif groups[1] == "destroy":
-            id = groups[3][1:-1]
+            if groups[3]:
+                id = groups[3][1:-1]
+            else:
+                id =""
             args = f"{groups[1]} {groups[0]} {id}"
             cmd.Cmd.onecmd(self, args)
             return
         elif groups[1] == 'update':
-            id = groups[3][1:-1]
-            attr_name = groups[4][1:-1]
+            if groups[3] and groups[4]:
+                id = groups[3][1:-1]
+                attr_name = groups[4][1:-1]
+            else:
+                id = ""
+                attr_name = ""
             if "\"" not in groups[5]:
                 attr_value = groups[5]
-            else:
+            elif groups[5]:
                 attr_value = groups[5][1:-1]
-
+            else:
+                attr_value = ""
             args = f"{groups[1]} {groups[0]} {id} {attr_name} {attr_value}"
             cmd.Cmd.onecmd(self, args)
             return
+
+    def emptyline(self):
+        return False
 
 
 if __name__ == '__main__':
