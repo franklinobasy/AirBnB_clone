@@ -2,7 +2,6 @@
 '''Entry point of the command interpreter
 '''
 import cmd
-from curses.ascii import isdigit
 import json
 import re
 
@@ -133,21 +132,13 @@ class HBNBCommand(cmd.Cmd):
             return
 
         args = args.split(" ")
-        try:
-            with open("file.json", 'r') as f_obj:
-                data = json.load(f_obj)
-
-            for k, v in data.items():
-                key = k.split(".")
-
-                if key[0] == args[0] and key[1] == args[1]:
-                    obj = eval(args[0])(**v)
-                    print(obj)
-                    return
-        except FileNotFoundError:
-            pass
-
-        print("** no instance found **")
+        objects = models.storage.all()
+        key = ".".join(args)
+        obj = objects.get(key)
+        if obj:
+            print(obj)
+        else:
+            print("** no instance found **")
 
     def help_show(self):
         doc = '''
