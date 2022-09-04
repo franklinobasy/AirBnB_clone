@@ -2,39 +2,60 @@
     "User.4a4266c2-9a4c-42df-a423-65a377a4b2e3": {
         "id": "4a4266c2-9a4c-42df-a423-65a377a4b2e3",
         "created_at": "2022-09-02T17:48:45.723755",
-        "updated_at": "2022-09-03T22:34:39.718777",
+        "updated_at": "2022-09-04T22:41:12.934526",
         "__class__": "User"
     },
     "BaseModel.1c9a86df-6e01-4d10-bf42-7809b747ac7c": {
         "id": "1c9a86df-6e01-4d10-bf42-7809b747ac7c",
         "created_at": "2022-09-02T17:48:51.516918",
-        "updated_at": "2022-09-03T22:34:39.718801",
+        "updated_at": "2022-09-04T22:41:12.934555",
         "__class__": "BaseModel"
     },
     "User.438e4879-79c2-42a9-991c-657750267442": {
         "id": "438e4879-79c2-42a9-991c-657750267442",
         "created_at": "2022-09-02T17:48:55.635167",
-        "updated_at": "2022-09-03T22:34:39.718820",
+        "updated_at": "2022-09-04T22:41:12.934578",
         "__class__": "User"
     },
     "BaseModel.c002e673-474e-47b6-9e2b-0b19bcb87ffb": {
         "id": "c002e673-474e-47b6-9e2b-0b19bcb87ffb",
         "created_at": "2022-09-02T17:49:53.433699",
-        "updated_at": "2022-09-03T22:34:39.718837",
+        "updated_at": "2022-09-04T22:41:12.934598",
         "__class__": "BaseModel"
     },
     "Place.32d74e15-023f-4edb-8066-80a11aa6b39f": {
         "id": "32d74e15-023f-4edb-8066-80a11aa6b39f",
         "created_at": "2022-09-03T21:57:11.355365",
-        "updated_at": "2022-09-03T22:34:39.718854",
+        "updated_at": "2022-09-04T22:41:12.934619",
         "first_name": "Franklin",
         "__class__": "Place"
     },
     "BaseModel.bf1d76d1-ddc2-426b-a3be-5ad061dcd91a": {
         "id": "bf1d76d1-ddc2-426b-a3be-5ad061dcd91a",
         "created_at": "2022-09-03T21:57:28.298178",
-        "updated_at": "2022-09-03T22:34:39.718872",
+        "updated_at": "2022-09-04T22:41:12.934641",
         "first_name": "Obasi",
         "__class__": "BaseModel"
+    },
+    "Place.b4fba9da-e511-43b3-ad42-bf3b3b5e5d2e": {
+        "id": "b4fba9da-e511-43b3-ad42-bf3b3b5e5d2e",
+        "created_at": "2022-09-04T22:25:19.561493",
+        "updated_at": "2022-09-04T22:41:12.934660",
+        "first_name": "Frank",
+        "__class__": "Place"
+    },
+    "BaseModel.f7c576b7-cd89-4aec-ae9a-0038d2e0938f": {
+        "id": "f7c576b7-cd89-4aec-ae9a-0038d2e0938f",
+        "created_at": "2022-09-04T22:26:00.082381",
+        "updated_at": "2022-09-04T22:41:12.934682",
+        "first_name": "Mee",
+        "__class__": "BaseModel"
+    },
+    "User.bf739b05-b8bd-4fcd-b164-65146c2019e2": {
+        "id": "bf739b05-b8bd-4fcd-b164-65146c2019e2",
+        "created_at": "2022-09-04T22:26:07.701250",
+        "updated_at": "2022-09-04T22:41:12.934701",
+        "second_name": "You",
+        "__class__": "User"
     }
 }

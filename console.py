@@ -2,7 +2,6 @@
 '''Entry point of the command interpreter
 '''
 import cmd
-from curses import keyname
 import json
 import re
 
@@ -217,7 +216,7 @@ class HBNBCommand(cmd.Cmd):
         Args:
             class_model: class name to print
         '''
-        
+
         if HBNBCommand.handle_errors(args):
             return
 
@@ -339,6 +338,6 @@ class HBNBCommand(cmd.Cmd):
         return False
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     interpreter = HBNBCommand()
     interpreter.cmdloop()
