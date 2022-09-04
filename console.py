@@ -22,12 +22,18 @@ class HBNBCommand(cmd.Cmd):
 
     @classmethod
     def handle_errors(cls, args: str, **kwargs):
+        if "all" in kwargs.values():
+            if not args:
+                return False
+
         if not args:
-            args = ()
+            print("** class name missing **")
+            return True
         else:
-            args = tuple(args.split(" "))
+            args = args.split(" ")
 
         n = len(args)
+
         if n < 1:
             print("** class name missing **")
             return True
@@ -40,7 +46,7 @@ class HBNBCommand(cmd.Cmd):
             return False
 
         for _, arg in kwargs.items():
-            if arg in ['create', 'show', 'destroy', 'all']:
+            if arg in ['create', 'show', 'destroy']:
                 if n < 2:
                     print("** instance id missing **")
                     return True
@@ -217,19 +223,22 @@ class HBNBCommand(cmd.Cmd):
             class_model: class name to print
         '''
 
-        if HBNBCommand.handle_errors(args):
+        if HBNBCommand.handle_errors(args, command='all'):
             return
 
         args = args.split(" ")
+
         objects = models.storage.all()
-        _all = []
 
-        for k, v in objects.items():
-            key = k.split(".")
-            if key[0] == args[0]:
-                _all.append(str(v))
+        if args[0] == "":
+            for obj in objects.values():
+                print(obj)
 
-        print(_all)
+        else:
+            for key in objects:
+                k = key.split(".")
+                if k[0] == args[0]:
+                    print(objects[key])
 
     def help_all(self):
         pass
