@@ -15,16 +15,16 @@ The ALX-Holberton B&B sums up the implementation of my four months of studies at
 **5.  General concepts in review**
 </br>
 ### As you navigate this code base, it is great to note the following concepts, while completing this project;
-<h4> How to create a Python package </h4>
-<h4> How to create a command interpreter in Python using the cmd module </h4>
-<h4> What is Unit testing and how to implement it in a large project </h4>
-<h4> How to serialize and deserialize a Class </h4>
-<h4> How to write and read a JSON file </h4>
-<h4> How to manage datetime <h4>
-<h4> What is an UUID <h4>
-<h4> What is *args and how to use it <h4>
-<h4> What is **kwargs and how to use it <h4>
-<h4> How to handle named arguments in a function </h4>
+        * <h4> How to create a Python package </h4>
+        * <h4> How to create a command interpreter in Python using the cmd module </h4>
+        * <h4> What is Unit testing and how to implement it in a large project </h4>
+        * <h4> How to serialize and deserialize a Class </h4>
+        * <h4> How to write and read a JSON file </h4>
+        * <h4> How to manage datetime <h4>
+        * <h4> What is an UUID <h4>
+        * <h4> What is *args and how to use it <h4>
+        * <h4> What is **kwargs and how to use it <h4>
+        * <h4> How to handle named arguments in a function </h4>
 
 
 ## Environment :computer:
