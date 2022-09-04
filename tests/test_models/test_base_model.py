@@ -26,3 +26,17 @@ class TestBaseModel(unittest.TestCase):
                     "updated_at not changeing after new modification"
         except AssertionError as e:
             print(e)
+
+    def test_instance_attributes(self):
+        try:
+            my_model = BaseModel()
+            my_model.name = "Larvine"
+            my_model.account_bal = 9999999999999
+
+            _dict = {'name': "Larvine", 'account_bal': 9999999999999}
+            
+            for item in _dict.items():
+                self.assertIn(item, my_model.__dict__.items()), \
+                                f"{item} not an instance attribute"
+        except AssertionError as e:
+            print(e)
