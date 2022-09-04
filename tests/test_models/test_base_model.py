@@ -40,3 +40,17 @@ class TestBaseModel(unittest.TestCase):
                                 f"{item} not an instance attribute"
         except AssertionError as e:
             print(e)
+
+    def test_to_dict(self):
+        try:
+            my_model = BaseModel()
+            my_model.name = "My_First_Model"
+            my_model.my_number = 89
+
+            my_model_json = my_model.to_dict()
+            my_new_model = BaseModel(**my_model_json)
+            
+            self.assertEqual("<class 'datetime.datetime'>",\
+                    type(my_new_model.created_at)), "created_at not a datetime object"
+        except AssertionError as e:
+            print(e)
