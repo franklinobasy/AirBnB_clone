@@ -339,6 +339,6 @@ class HBNBCommand(cmd.Cmd):
         return False
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     interpreter = HBNBCommand()
     interpreter.cmdloop()
