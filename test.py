@@ -8,5 +8,5 @@ while True:
     match = re.search(pattern, line)
     print(match)
     if match:
-        for i in match.groups():
+        for i in match.group():
             print(i)
