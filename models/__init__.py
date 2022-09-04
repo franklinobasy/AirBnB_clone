@@ -8,4 +8,4 @@ from .place import Place
 from .review import Review
 
 storage = FileStorage()
-
+storage.reload()
