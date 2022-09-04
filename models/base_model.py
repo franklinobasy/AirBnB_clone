@@ -57,8 +57,6 @@ class BaseModel:
         to_dict['created_at'] = self.created_at.\
             strftime("%Y-%m-%dT%H:%M:%S.%f")
 
-        self.updated_at = datetime.now()
-        to_dict['updated_at'] = self.updated_at.\
-            strftime("%Y-%m-%dT%H:%M:%S.%f")
+        
 
         return to_dict
