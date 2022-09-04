@@ -38,12 +38,12 @@ class FileStorage:
         FileStorage.__objects.setdefault(key, obj)
 
     def save(self):
-        '''serializes __objects to the JSON file (path: __file_path)
+        '''serializes__objects to the JSON file (path: __file_path)
         '''
-
+        
         to_save = {}
         for key, obj in FileStorage.__objects.items():
-            key = f"{obj.__class__.__name__}.{obj.id}"
+            key = f"{obj.__class__.name__}.{obj.id}"
             to_save.setdefault(key, obj.to_dict())
 
         with open(self.__file_path, 'w') as f_obj:
