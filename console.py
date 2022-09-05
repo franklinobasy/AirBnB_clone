@@ -72,7 +72,7 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def do_EOF(self, args):
-        '''Quit command to exit the program'''
+        '''EOF command to exit the program'''
 
         return True
 
@@ -98,6 +98,7 @@ class HBNBCommand(cmd.Cmd):
         based on the class name and id
 
         Usage: show <class name> <id>
+               <class name>.show("<id>")
         '''
 
         if HBNBCommand.handle_errors(args, command='show'):
@@ -117,6 +118,7 @@ class HBNBCommand(cmd.Cmd):
         Deletes an instance based on the class name and id
 
         Usage: destroy <class name> <id>
+               <class name>.destroy("<id>")
         '''
 
         if HBNBCommand.handle_errors(args, command='destroy'):
@@ -138,6 +140,7 @@ class HBNBCommand(cmd.Cmd):
         or not on the class name.
 
         Usage: count <class_name>
+               <class name>.count()
         '''
 
         if HBNBCommand.handle_errors(args):
@@ -161,6 +164,7 @@ class HBNBCommand(cmd.Cmd):
 
         Usage: all
                all <class name>
+               <class name>.all()
         '''
 
         if HBNBCommand.handle_errors(args, command='all'):
@@ -186,6 +190,8 @@ class HBNBCommand(cmd.Cmd):
         by adding or updating attribute (save the change into the JSON file).
 
         Usage: update <class name> <id> <attr_name> <attr_value>
+               <class name>.update("<id>", <attr_name>, "<attr_vale>")
+               <class name>.update("<id>", <dictionary>)
         '''
 
         if HBNBCommand.handle_errors(args, command='update'):
@@ -251,7 +257,7 @@ class HBNBCommand(cmd.Cmd):
             if groups[3]:
                 id = groups[3][1:-1]
             else:
-                id =""
+                id = ""
             args = f"{groups[1]} {groups[0]} {id}"
             cmd.Cmd.onecmd(self, args)
             return
@@ -259,7 +265,7 @@ class HBNBCommand(cmd.Cmd):
             if groups[3]:
                 id = groups[3][1:-1]
             else:
-                id =""
+                id = ""
             args = f"{groups[1]} {groups[0]} {id}"
             cmd.Cmd.onecmd(self, args)
             return
@@ -298,7 +304,7 @@ class HBNBCommand(cmd.Cmd):
             for m in match:
                 for part in m.groups():
                     results.append(part)
-        
+
         if not results or len(results) % 2 != 0:
             print("** something went wrong in the dictionary argument **")
             return
@@ -311,7 +317,7 @@ class HBNBCommand(cmd.Cmd):
                 attr_value = results[i+1]
                 args = f"{query} {class_name} {id} {attr_name} {attr_value}"
                 cmd.Cmd.onecmd(self, args)
-        
+
     def emptyline(self):
         return False
 
