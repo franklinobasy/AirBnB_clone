@@ -74,9 +74,10 @@
     "BaseModel.3efa25ba-38a5-4527-be09-bd455b99cb48": {
         "id": "3efa25ba-38a5-4527-be09-bd455b99cb48",
         "created_at": "2022-09-05T11:35:58.100253",
-        "updated_at": "2022-09-05T11:35:58.103137",
-        "name": "Larvine",
+        "updated_at": "2022-09-05T17:23:13.091913",
         "account_bal": 9999999999999,
+        "first_name": "Joan",
+        "age": 20,
         "__class__": "BaseModel"
     },
     "BaseModel.89c7e2a5-4b9f-421b-a842-8552b6e6a54e": {
@@ -92,5 +93,12 @@
         "created_at": "2022-09-05T11:35:58.101278",
         "updated_at": "2022-09-05T11:35:58.104779",
         "__class__": "BaseModel"
+    },
+    "Place.aaa2a2c0-9001-4ef6-b532-720283fed936": {
+        "id": "aaa2a2c0-9001-4ef6-b532-720283fed936",
+        "created_at": "2022-09-05T17:32:46.106125",
+        "updated_at": "2022-09-05T18:22:16.250105",
+        "latitude": 7.2,
+        "__class__": "Place"
     }
 }

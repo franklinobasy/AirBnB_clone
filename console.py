@@ -9,6 +9,13 @@ import models
 from models import BaseModel, User, State, \
     City, Amenity, Place, Review
 
+def isfloat(s):
+    '''Checks if a string is a decimal'''
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False
 
 class HBNBCommand(cmd.Cmd):
     '''Shell for database
@@ -60,8 +67,10 @@ class HBNBCommand(cmd.Cmd):
                     print("** attribute name missing **")
                     return True
                 elif n < 4:
-                    print(args)
                     print("** value missing **")
+                    return True
+                elif n == 4 and args[2] == "":
+                    print("** attribute name missing **")
                     return True
 
         return False
@@ -200,10 +209,12 @@ class HBNBCommand(cmd.Cmd):
         args = args.split(" ")
         attr_name = args[2]
         attr_value = str(args[3])
-        if attr_value[0] == "\"" or attr_value[-1] == "\"":
+        if attr_value[0] == "\"" or attr_value[0] == "'":
             attr_value = attr_value[1:-1]
         if attr_value.isdigit():
             attr_value = int(attr_value)
+        elif isfloat(attr_value) :
+            attr_value = float(attr_value)
 
         objects = models.storage.all()
         key = ".".join(args[:2])
@@ -217,7 +228,7 @@ class HBNBCommand(cmd.Cmd):
 
     def onecmd(self, args: str):
         pattern = re.compile(
-            r"(\w+)\.(\w+)\(((\"[\w|-]+\"),?\s?(\"\w+\")?,?\s?(\"?\w+\"?)?)?\)"
+            r"(\w+)\.(\w+)\(((\"[\w|-]+\"),?\s?(\"\w+\")?,?\s?(\"?[\w\.]+\"?)?)?\)"
         )
 
         pattern2 = re.compile(
@@ -270,18 +281,22 @@ class HBNBCommand(cmd.Cmd):
             cmd.Cmd.onecmd(self, args)
             return
         elif groups[1] == 'update':
-            if groups[3] and groups[4]:
+            if groups[3]:
                 id = groups[3][1:-1]
-                attr_name = groups[4][1:-1]
             else:
                 id = ""
+            if groups[4]:
+                attr_name = groups[4][1:-1]
+            else:
                 attr_name = ""
-            if "\"" not in groups[5]:
+            
+            if not groups[5]:
+                attr_value = ""
+            elif "\"" not in groups[5]:
                 attr_value = groups[5]
             elif groups[5]:
                 attr_value = groups[5][1:-1]
-            else:
-                attr_value = ""
+            
             args = f"{groups[1]} {groups[0]} {id} {attr_name} {attr_value}"
             cmd.Cmd.onecmd(self, args)
             return
@@ -297,7 +312,7 @@ class HBNBCommand(cmd.Cmd):
 
         if groups1[3]:
             pattern = re.compile(
-                r"[\'\"](\w+)[\'\"]\s?:\s?[\'\"]?(\w+)[\'\"]?,?\s?"
+                r"[\'\"](\w+)[\'\"]\s?:\s?[\'\"]?([\w\.]+)[\'\"]?,?\s?"
             )
             match = pattern.finditer(groups1[3])
             results = []
@@ -311,7 +326,10 @@ class HBNBCommand(cmd.Cmd):
         else:
             class_name = groups1[0]
             query = groups1[1]
-            print(id)
+            id = groups1[2]
+            if id[0] == "\"" or id[-1] == "\"":
+                id = id[1:-1]
+
             for i in range(0, len(results), 2):
                 attr_name = results[i]
                 attr_value = results[i+1]
