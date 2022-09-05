@@ -284,9 +284,17 @@ class HBNBCommand(cmd.Cmd):
         pattern = re.compile(
             r"(\w+)\.(\w+)\(((\"[\w|-]+\"),?\s?(\"\w+\")?,?\s?(\"?\w+\"?)?)?\)"
         )
-        match = re.search(pattern, args)
+
+        pattern2 = re.compile(
+            r"(\w+)\.(\w+)\((\"[\w-]+\"),\s?\{(.+)\}\)"
+        )
+
+        match = pattern.search(args)
+        match2 = pattern2.search(args)
         if match:
             self.handle_match(match)
+        elif match2:
+            self.handle_match2(match2)
         elif args == "quit":
             return self.do_quit(args)
         elif args == "EOF":
@@ -300,7 +308,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
         if groups[1] not in HBNBCommand.queries:
-            print(f"** unknown query: '{groups[1]}'")
+            print(f"** unknown query: '{groups[1]}' **")
             return
         if groups[1] == 'all':
             args = f"{groups[1]} {groups[0]}"
@@ -343,6 +351,38 @@ class HBNBCommand(cmd.Cmd):
             cmd.Cmd.onecmd(self, args)
             return
 
+    def handle_match2(self, match: re.Match):
+        groups1 = match.groups()
+        if groups1[0] not in HBNBCommand.model_list:
+            print("** class doesn't exist **")
+            return
+        if groups1[1] != 'update':
+            print(f"** This only works for update command **")
+            return
+
+        if groups1[3]:
+            pattern = re.compile(
+                r"[\'\"](\w+)[\'\"]\s?:\s?[\'\"]?(\w+)[\'\"]?,?\s?"
+            )
+            match = pattern.finditer(groups1[3])
+            results = []
+            for m in match:
+                for part in m.groups():
+                    results.append(part)
+        
+        if not results or len(results) % 2 != 0:
+            print("** something went wrong in the dictionary argument **")
+            return
+        else:
+            class_name = groups1[0]
+            query = groups1[1]
+            print(id)
+            for i in range(0, len(results), 2):
+                attr_name = results[i]
+                attr_value = results[i+1]
+                args = f"{query} {class_name} {id} {attr_name} {attr_value}"
+                cmd.Cmd.onecmd(self, args)
+        
     def emptyline(self):
         return False
 

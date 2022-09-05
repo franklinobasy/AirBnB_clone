@@ -1,7 +1,1 @@
 *.pyc
-__pycache__/*
-models/__pycache__/*
-tests/__pycache__/*
-tests/test_models/__pycache__/*
-tests/models/engine/__pycache__/*
-test.py
