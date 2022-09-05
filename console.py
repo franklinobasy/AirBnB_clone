@@ -22,6 +22,8 @@ class HBNBCommand(cmd.Cmd):
 
     @classmethod
     def handle_errors(cls, args: str, **kwargs):
+        '''Error Handler for all commands'''
+
         if "all" in kwargs.values():
             if not args:
                 return False
@@ -65,45 +67,21 @@ class HBNBCommand(cmd.Cmd):
         return False
 
     def do_quit(self, args: str):
-        ''' command to quit the interpreter'''
+        '''Quit command to exit the program'''
 
         return True
-
-    def help_quit(self):
-        doc = '''
-        This command quits the interpreter
-        Usage:
-            (hbnb) quit
-        '''
-
-        print(doc)
 
     def do_EOF(self, args):
-        '''Handles end of line'''
+        '''Quit command to exit the program'''
 
         return True
-
-    def help_EOF(self):
-        doc = '''
-        This command handles EOF
-        Usage:
-            (hnbn) <Ctrl-d>
-        '''
-
-        print(doc)
 
     def do_create(self, args: str):
         '''
         Creates a new instance of a class, saves it to JSON
         file, prints the instance id
 
-        Args:
-            args: class name to instantiate
-
-        Example:
-            (hbnb) create BaseModel
-
-            93605ea4-0fc7-4593-a2d5-002348057cd1
+        Usage: create <class name>
         '''
 
         if HBNBCommand.handle_errors(args):
@@ -114,24 +92,12 @@ class HBNBCommand(cmd.Cmd):
         obj.save()
         print(obj.id)
 
-    def help_create(self):
-        doc = '''Creates a new instance of a class, saves it to JSON
-        file, prints the instance id
-
-        Args:
-            args: class name to instantiate
-
-        Example:
-            (hbnb) create BaseModel
-
-            93605ea4-0fc7-4593-a2d5-002348057cd1
-        '''
-        print(doc)
-
     def do_show(self, args: str):
         '''
         Prints the string representation of an instance
         based on the class name and id
+
+        Usage: show <class name> <id>
         '''
 
         if HBNBCommand.handle_errors(args, command='show'):
@@ -146,25 +112,11 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("** no instance found **")
 
-    def help_show(self):
-        doc = '''
-        Prints the string representation of an instance
-        based on the class name and id
-
-        Args:
-            model: Class model of instance to show
-            id: id of instance
-        '''
-
-        print(doc)
-
     def do_destroy(self, args: str):
         '''
         Deletes an instance based on the class name and id
-        Args:
-            class_model: class model of instance to destroy
-            id: id of instance to destroy
 
+        Usage: destroy <class name> <id>
         '''
 
         if HBNBCommand.handle_errors(args, command='destroy'):
@@ -180,24 +132,12 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("** no instance found **")
 
-    def help_destroy(self):
-        doc = '''
-        Deletes an instance based on the class name and id
-        Args:
-            class_model: class model of instance to destroy
-            id: id of instance to destroy
-
-        '''
-
-        print(doc)
-
     def do_count(self, args: str):
         '''
         counts all string representation of all instances based
         or not on the class name.
 
-        Args:
-            class_model: class name to print
+        Usage: count <class_name>
         '''
 
         if HBNBCommand.handle_errors(args):
@@ -219,8 +159,8 @@ class HBNBCommand(cmd.Cmd):
         Prints all string representation of all instances based
         or not on the class name.
 
-        Args:
-            class_model: class name to print
+        Usage: all
+               all <class name>
         '''
 
         if HBNBCommand.handle_errors(args, command='all'):
@@ -240,13 +180,12 @@ class HBNBCommand(cmd.Cmd):
                 if k[0] == args[0]:
                     print(objects[key])
 
-    def help_all(self):
-        pass
-
     def do_update(self, args: str):
         '''
         Updates an instance based on the class name and id
         by adding or updating attribute (save the change into the JSON file).
+
+        Usage: update <class name> <id> <attr_name> <attr_value>
         '''
 
         if HBNBCommand.handle_errors(args, command='update'):
@@ -269,16 +208,6 @@ class HBNBCommand(cmd.Cmd):
             obj.save()
         else:
             print("** no instance found **")
-
-    def help_update(self):
-        doc = '''
-        Updates an instance based on the class name and id
-        by adding or updating attribute (save the change into the JSON file).
-
-        Usage: update <class name> <id> <attribute name> "<attribute value>"
-        '''
-
-        print(doc)
 
     def onecmd(self, args: str):
         pattern = re.compile(
@@ -308,7 +237,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
         if groups[1] not in HBNBCommand.queries:
-            print(f"** unknown query: '{groups[1]}' **")
+            print(f"** unknown command: '{groups[1]}' **")
             return
         if groups[1] == 'all':
             args = f"{groups[1]} {groups[0]}"
