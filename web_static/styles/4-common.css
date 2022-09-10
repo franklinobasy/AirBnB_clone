@@ -14,3 +14,10 @@ body {
     padding: 0px;
     position: relative;
 }
+
+.container {
+    max-width: 1000px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 1000px;
+}
