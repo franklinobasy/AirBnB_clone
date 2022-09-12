@@ -5,6 +5,5 @@ footer {
     display: grid;   
     height: 60px;
     place-items: center; 
-    position: absolute; 
     width: 100%;
 }
